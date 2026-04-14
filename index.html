@@ -42,83 +42,24 @@
     <footer>每天一篇，水平慢慢提高 ✨</footer>
 
     <script>
-        // 这里就是你的6个故事数据（直接放进去）
-        const storiesData = [
-          { "id": 1, "title": "The Little Red Fish", "content": "Lily has a pet fish. The fish is small and red. It lives in a round bowl. Every morning, Lily feeds the fish. She drops tiny flakes into the water. The fish swims up fast. It eats all the food. Then it swims in circles. Lily watches and smiles. She talks to the fish every day. She says, \"Hello, Ruby!\" The fish blows a bubble. Lily thinks it says hello back. After school, Lily sits by the bowl. She reads her book out loud. Ruby swims and listens. They are best friends. Lily loves her little red fish very much.", "type": "daily", "difficulty": "L1", "wordCount": 118 },
-          { "id": 2, "title": "A Day at the Park", "content": "Ben likes the park. He goes there every Sunday. The park has tall trees and green grass. Ben brings his dog, Max. Max runs very fast. He chases the birds. The birds fly away. Ben laughs and claps his hands. Then Ben sits on a bench. He eats a sandwich. Max sits next to him. Ben gives Max a small piece. Max wags his tail. They watch the clouds together. Some clouds look like animals. Ben sees a cloud like a rabbit. Max barks at a squirrel. The squirrel runs up a tree. It is a fun day. Ben and Max walk home. They are both tired and happy.", "type": "humor", "difficulty": "L1", "wordCount": 121 },
-          { "id": 3, "title": "The Treasure Map", "content": "Last summer, Emma found an old map in her grandmother's attic. The paper was yellow and torn at the edges. A red X marked a spot near the old oak tree behind the house. Emma was very excited. She grabbed a small shovel and ran outside. Her brother Jack followed her. They walked through the tall grass until they reached the tree. Emma started digging. After ten minutes, the shovel hit something hard. It was a metal box covered in dirt. She opened it carefully. Inside, there were old coins, a silver ring, and a folded letter. The letter was from their great-grandfather. He wrote it sixty years ago. It said, \"To whoever finds this box — adventure lives in those who seek it.\" Emma and Jack smiled at each other. It was the best summer day ever. They showed the box to their grandmother, and she cried happy tears. She had forgotten all about it.", "type": "adventure", "difficulty": "L2", "wordCount": 165 },
-          { "id": 4, "title": "The Midnight Baker", "content": "Mr. Ortiz owned a small bakery on Maple Street. Every night, he baked bread and cakes for the next day. One evening, he heard a strange noise from the kitchen. He walked downstairs quietly and turned on the light. A large raccoon sat on the counter. It was eating a chocolate cake. Mr. Ortiz stared at the raccoon. The raccoon stared back. It did not run away. Instead, it pushed a tray of cookies toward Mr. Ortiz, as if offering to share. Mr. Ortiz laughed. He sat down and ate a cookie with the raccoon. From that night on, the raccoon visited every Tuesday. Mr. Ortiz always left a small cake by the back door. He named the raccoon \"Chef.\" Customers noticed the Tuesday cakes tasted extra special. Mr. Ortiz just winked and said, \"I have a secret helper.\" Nobody believed him, of course. But every Tuesday night, if you walked past the bakery, you could see two shadows in the kitchen window — one tall, one small and furry — baking together under the moonlight.", "type": "humor", "difficulty": "L2", "wordCount": 185 },
-          { "id": 5, "title": "The Last Light of Kepler Station", "content": "When Commander Aisha Chen arrived at Kepler Station, she expected to find a crew of twelve scientists waiting for her. Instead, the station was empty. The lights flickered in the long metal corridors, and the only sound was the low hum of the life-support system, which was still running on backup power. She checked the logs on the main computer. The last entry, dated three weeks earlier, read: \"We saw something in the ice. It moved. We are leaving.\" Aisha felt a chill run down her spine, but she was not the kind of person who turned back easily. She had traveled eight months through deep space to reach this frozen moon, and she intended to complete her mission. She put on her thermal suit and stepped outside onto the surface. The ice stretched endlessly in every direction, glowing faintly blue under the light of a distant sun. As she walked toward the drilling site that the scientists had abandoned, she noticed something beneath the ice — a pattern that was too regular to be natural. It looked like a grid of perfect squares, each one about two meters wide. Her heart raced as she knelt down and wiped the frost from the surface. Through the clear ice, she could see lights — tiny, golden lights arranged in rows, blinking slowly, as though something far below was trying to communicate. Aisha pulled out her radio and whispered, \"Mission Control, I think I understand why they left. And I think I understand why I need to stay.\"", "type": "sci-fi", "difficulty": "L3", "wordCount": 252 },
-          { "id": 6, "title": "The Bridge That Remembered", "content": "In a kingdom that no map ever showed, there was a stone bridge that stretched across a river of silver mist. The bridge was ancient, older than the kingdom itself, and the villagers believed that it could remember every person who had ever crossed it. They said that if you stood in the middle of the bridge at sunset and placed your hand on the stone railing, you could hear whispers — fragments of conversations from travelers who had passed by centuries ago. Most people thought this was just a charming legend, but a girl named Wren decided to test it. She was fourteen and had just lost her grandfather, who used to tell her stories about the bridge when she was small. One autumn evening, when the sky turned the color of burnt copper, Wren walked to the center of the bridge and pressed both hands against the cold stone. At first, she heard nothing but the wind. Then, gradually, voices began to rise from the mist below — soft, overlapping, like pages turning in a hundred different books. She could not understand most of them, but one voice was clear, warm, and familiar. It said, \"You were always braver than you believed, little bird.\" Tears streamed down her face because she recognized it immediately. It was her grandfather's voice, caught in the stone from the last time he had crossed the bridge, preserved like a letter that had waited years to be opened. Wren visited the bridge every autumn after that, and though she never heard his voice again, she always felt his presence in the ancient stone beneath her fingers, reminding her that the people we love leave echoes in the places they once walked.", "type": "fairy", "difficulty": "L3", "wordCount": 277 }
-        ];
-
-        function getTodaysStoryId() {
-            const today = new Date().toISOString().slice(0,10).replace(/-/g, '');
-            let hash = 0;
-            for(let i=0; i<today.length; i++) {
-                hash = ((hash<<5)-hash)+today.charCodeAt(i);
-                hash |= 0;
-            }
-            return Math.abs(hash) % storiesData.length;
-        }
-
-        function renderStory(story) {
-            if(!story) return;
-            document.getElementById('storyDisplay').innerHTML = `
-                <h2>📖 ${story.title}</h2>
-                <div class="story-meta">
-                    <span>🏷️ ${story.type}</span>
-                    <span>📊 ${story.difficulty}</span>
-                    <span>🔤 ${story.wordCount} 词</span>
-                </div>
-                <div class="story-content">${story.content.replace(/\n/g, '<br>')}</div>
-            `;
-        }
-
-        function renderStoryList(stories) {
-            const container = document.getElementById('storyListContainer');
-            if(!stories.length) {
-                container.innerHTML = '<p>没有找到故事，试试其他筛选条件～</p>';
-                return;
-            }
-            container.innerHTML = stories.map(story => `
-                <div class="story-list-item">
-                    <span><strong>${story.title}</strong> (${story.difficulty}) · ${story.type}</span>
-                    <button class="viewStoryBtn" data-id="${story.id}">阅读</button>
-                </div>
-            `).join('');
-            document.querySelectorAll('.viewStoryBtn').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    const id = parseInt(btn.dataset.id);
-                    const s = storiesData.find(st => st.id === id);
-                    if(s) renderStory(s);
-                });
-            });
-        }
-
-        function filterStories() {
-            const type = document.getElementById('typeFilter').value;
-            const diff = document.getElementById('difficultyFilter').value;
-            const filtered = storiesData.filter(s => 
-                (type === 'all' || s.type === type) &&
-                (diff === 'all' || s.difficulty === diff)
-            );
-            renderStoryList(filtered);
-        }
-
-        function init() {
-            if(!storiesData.length) return;
-            const todayId = getTodaysStoryId();
-            renderStory(storiesData[todayId]);
-            filterStories();
-            document.getElementById('typeFilter').addEventListener('change', filterStories);
-            document.getElementById('difficultyFilter').addEventListener('change', filterStories);
-            document.getElementById('todayBtn').addEventListener('click', () => {
-                const tid = getTodaysStoryId();
-                renderStory(storiesData[tid]);
-            });
-        }
-        init();
-    </script>
+  // 加载今日故事
+  fetch('story_of_today.json')
+    .then(res => res.json())
+    .then(story => {
+      document.getElementById('storyDisplay').innerHTML = `
+        <h2>📖 ${story.title}</h2>
+        <div class="story-meta">
+          <span>🏷️ ${story.type}</span>
+          <span>📊 ${story.difficulty}</span>
+          <span>🔤 ${story.wordCount} 词</span>
+        </div>
+        <div class="story-content">${story.content.replace(/\n/g, '<br>')}</div>
+      `;
+    })
+    .catch(err => {
+      document.getElementById('storyDisplay').innerHTML = '<p>⚠️ 无法加载今日故事，请稍后刷新。</p>';
+      console.error(err);
+    });
+</script>
 </body>
 </html>
