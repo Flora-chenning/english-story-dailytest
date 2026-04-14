@@ -1,0 +1,35 @@
+name: Daily Story Generator
+
+on:
+  schedule:
+    # 每天 UTC 时间 18:00 = 北京时间凌晨 2:00
+    - cron: '0 18 * * *'
+  workflow_dispatch:  # 允许手动触发
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 安装 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: 安装依赖
+        run: pip install -r requirements.txt
+
+      - name: 运行故事生成脚本
+        env:
+          CLAUDE_API_KEY: ${{ secrets.CLAUDE_API_KEY }}
+        run: python generate_story.py
+
+      - name: 提交并推送更新
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add story_of_today.json
+          git diff --quiet && git diff --staged --quiet || git commit -m "每日故事自动更新 $(date +%Y-%m-%d)"
+          git push
